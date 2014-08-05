@@ -1,0 +1,16 @@
+/* CSS Document */
+
+body { padding-top: 50px; padding-bottom:25px; }
+a{ cursor:pointer; }
+.starter-template { padding: 0px 15px; text-align: center; }
+h2{ margin-top:5px; margin-bottom:5px; }
+table td { border-top: none; }
+.table th, .table td { border-top: none !important; }
+.deleteRecipe{ cursor:pointer; }
+.numIngredients{ font-size:10px; color:#929292; }
+.glyphicon-star, .glyphicon-star-empty{ font-size: 2em !important; }
+.summarytable .glyphicon-star, .summarytable .glyphicon-star-empty{ font-size: 1em !important; }
+.tablesort{ cursor:pointer; }
+.tablesort:hover{ text-decoration:underline; }
+
+.recipeLi{ cursor:pointer; }
