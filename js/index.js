@@ -38,8 +38,8 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 	$scope.guesswhat = ["I love you Rob"];
 	$scope.secretmessage = ["You are the best husband in the world!"];
 	
-	$scope.blankrecipe = {title:"",ingredients:[],categories:[],directions:"",rating:3};
-	$scope.recipe = {
+	$scope.blankrecipe = {title:"",ingredients:[],categories:[],directions:"",rating:3};	//template object for recipes
+	$scope.recipe = {	//the first recipe
 		id:"",
 		title:"",
 		ingredients:[],
@@ -51,8 +51,8 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 	
 	
 	$scope.db = {};
-	fireService.$bind($scope, "db");
-	$scope.categories = ["Main Dish","Breakfast","Lunch","Dinner","Dessert","Side Dish","Crockpot","Italian","Pasta","Asian","Chinese","Cookies","Thai"];
+	fireService.$bind($scope, "db");	//three-way-binding the db object
+	$scope.categories = ["Main Dish","Breakfast","Lunch","Dinner","Dessert","Side Dish","Crockpot","Italian","Pasta","Asian","Chinese","Cookies","Thai"];	//populating the autofill categories
 	
 	$scope.saveRecipe = function(){
 		//$scope.db.$add({"recipes":[]});
@@ -165,7 +165,7 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 			//Replacing double spaces with single spaces
 			var line = lines[i].trim();			
 			var note = /\s*\(.*?\)\s*/.exec(line);
-			line = line.replace(/ *\([^)]*\) */g, "" );			
+			line = line.replace(/ *\([^)]*\) */g, '' );			
 			
 			//Converting measurements
 			line = line.replace(/1 1\/4/g, '1.25');

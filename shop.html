@@ -54,36 +54,37 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html"><span class="glyphicon glyphicon-th-list"></span> Menu</a></li>
-			<li><a href="shop.html"><span class="glyphicon glyphicon-usd"></span> Shop</a></li>
+            <li><a href="index.html"><span class="glyphicon glyphicon-th-list"></span> Menu</a></li>
+			<li class="active"><a href="shop.html"><span class="glyphicon glyphicon-usd"></span> Shop</a></li>
 			<li><a href="input.html"><span class="glyphicon glyphicon-plus"></span> Recipe</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
+	<!-- Start Main Container -->
     <div class="container">
-		<div style="float:left; margin-top:34px; cursor:pointer;" ng-click="hideRecipe()" ng-show="ui.menu.recipe"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Go Back</div>
 		<div class="starter-template">
-			<h1>Moncur Recipe Book</h1>
+			<h1>Moncur Shopping List</h1>
 		</div>
 		
-		<div ng-hide="ui.menu.recipe">
-			<input type="text" class="form-control" placeholder="Search" style="margin:5px 0;" ng-model="searchFilter" />
-			<ul class="list-group">
-				<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:searchFilter" class="list-group-item recipeLi" ng-click="displayRecipe(r)">{{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
-			</ul>
-		</div>
-		<div ng-show="ui.menu.recipe">		
-			<h2>{{ui.menu.recipe.title}} </h2>
-			<h3>Ingredients</h3>
-			<ul class="well" style="list-style:none; font-family: Menlo,Monaco,Consolas,'Courier New',monospace;">
-				<li style="list-style:none;" ng-repeat="i in ui.menu.recipe.ingredients">{{i.amount}} <span style="text-decoration:underline;">{{i.unit}}</span> {{i.name}} {{i.note}}</li>
-			</ul>
-			<h3>Directions</h3>
-			<div style="max-width:554px;"><pre>{{ui.menu.recipe.directions}}</pre></div>
-			
-		</div>
+		<input type="text" class="form-control" placeholder="Search" style="margin:5px 0;" ng-model="searchFilter" />
+		<ul class="list-group">
+			<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:searchFilter" class="list-group-item recipeLi" ><input type="checkbox" ng-change="selectRecipe(r)" ng-model="r.selected" /> {{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
+		</ul>
+		
+		<h2>Selected Recipes</h2>
+		<ul class="list-group">
+			<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:!selected" class="list-group-item recipeLi" ><input type="checkbox" ng-change="selectRecipe(r)" ng-model="r.selected" /> {{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
+		</ul>
+		
+		<h2 ng-show="db.selectedIngredients.length">Selected Ingredients</h2>
+		<table class="table table-condensed" ng-show="db.selectedIngredients.length">
+			<tr ng-repeat="i in db.selectedIngredients | orderBy:'name'">
+				<td width="3%"><span ng-click="removeIngredient(i)" class="glyphicon glyphicon-remove deleteRecipe"></span></td>
+				<td width="97%"><b>{{i.amount}}</b> <u>{{i.unit}}</u> {{i.name}} {{i.note}}</td>
+			</tr>
+		</table>
 		
 
     </div><!-- /.container -->
