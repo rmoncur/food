@@ -30,6 +30,7 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 		},
 		menu:{
 			recipe:false,
+			recipeedit:false,
 			sort:"title",
 			sortdirection:true
 		}

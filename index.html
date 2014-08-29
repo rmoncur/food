@@ -64,6 +64,8 @@
 
     <div class="container">
 		<div style="float:left; margin-top:34px; cursor:pointer;" ng-click="hideRecipe()" ng-show="ui.menu.recipe"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Go Back</div>
+        <div style="float:right; margin-top:34px; cursor:pointer;" ng-click="loadRecipe(ui.menu.recipe); ui.menu.recipeedit = !ui.menu.recipeedit" ng-show="ui.menu.recipe && !ui.menu.recipeedit"><span class="glyphicon glyphicon glyphicon-edit"></span> Edit</div>
+        <div ng-show="ui.menu.recipeedit" style="float:right; margin-top:34px; cursor:pointer;" ng-click="ui.menu.recipeedit = !ui.menu.recipeedit" ><span class="glyphicon glyphicon glyphicon-edit"></span> Done</div>
 		<div class="starter-template">
 			<h1>Moncur Recipe Book</h1>
 		</div>
@@ -74,15 +76,61 @@
 				<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:searchFilter" class="list-group-item recipeLi" ng-click="displayRecipe(r)">{{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
 			</ul>
 		</div>
-		<div ng-show="ui.menu.recipe">		
-			<h2>{{ui.menu.recipe.title}} </h2>
-			<h3>Ingredients</h3>
-			<ul class="well" style="list-style:none; font-family: Menlo,Monaco,Consolas,'Courier New',monospace;">
-				<li style="list-style:none;" ng-repeat="i in ui.menu.recipe.ingredients">{{i.amount}} <span style="text-decoration:underline;">{{i.unit}}</span> {{i.name}} {{i.note}}</li>
-			</ul>
-			<h3>Directions</h3>
-			<div style="max-width:554px;"><pre>{{ui.menu.recipe.directions}}</pre></div>
-			
+		<div ng-show="ui.menu.recipe">
+        	
+            <!-- Displaying the Recipe -->
+        	<div ng-hide="ui.menu.recipeedit">		
+                <h2>{{ui.menu.recipe.title}} </h2>
+                <h3>Ingredients</h3>
+                <ul class="well" style="list-style:none; font-family: Menlo,Monaco,Consolas,'Courier New',monospace;">
+                    <li style="list-style:none;" ng-repeat="i in ui.menu.recipe.ingredients">{{i.amount}} <span style="text-decoration:underline;">{{i.unit}}</span> {{i.name}} {{i.note}}</li>
+                </ul>
+                <h3>Directions</h3>
+                <div style="max-width:554px;"><pre>{{ui.menu.recipe.directions}}</pre></div>
+            </div>
+            
+			<!-- Edit the Editable Section -->
+            <table style="width:100%;" class="table table-responsive" ng-show="ui.menu.recipeedit" >
+			<tr>
+				<td width="50%">
+					<h2>Title</h2>
+					<input type="text" ng-model="recipe.title" placeholder="type recipe name in here..." class="form-control" style="width:100%;" tabindex="1" />
+					<h2>From</h2>
+					<input type="text" ng-model="recipe.from" placeholder="where did you get this recipe...?" class="form-control" style="width:100%;" tabindex="1" />
+					<h2>Ingredients</h2>
+					<textarea ng-change="parseIngredients()" ng-model="recipe.rawtext" class="form-control" style="width:100%; height:150px;" tabindex="2"></textarea>
+					<h2>Directions</h2>
+					<textarea ng-model="recipe.directions" class="form-control" style="width:100%; height:150px;" tabindex="3"></textarea>
+					<h2>Categories</h2>
+					<div class="input-group">
+					  <input ng-model="nextCategory" class="form-control" type="text" placeholder="categories (e.g. italian, dessert, pasta)" typeahead="state for state in categories | filter:$viewValue | limitTo:8" ui-keypress="{13:'addCategory($event)'}" />
+						
+					  <span class="input-group-btn">
+						<button class="btn btn-info" ><span ng-click="addCategory()" class="glyphicon glyphicon-ok"></span></button>
+					  </span>
+					</div>
+				</td>
+				<td width="50%" rowspan="3" valign="top">
+					<h2>Recipe</h2>
+					<h3>{{recipe.title}}</h3>					 
+					<rating ng-model="recipe.rating" max="5" readonly="" on-hover="" on-leave=""></rating> {{recipe.rating}} stars
+					<h4 ng-show="recipe.ingredients.length">Ingredients</h4>
+					<ul class="well" style="list-style:none; font-family: Menlo,Monaco,Consolas,'Courier New',monospace;">
+						<li style="list-style:none;" ng-repeat="i in recipe.ingredients">{{i.amount}} <span style="text-decoration:underline;">{{i.unit}}</span> {{i.name}} {{i.note}}</li>
+					</ul>
+					<h4 ng-show="recipe.directions">Directions</h4>
+					<div style="max-width:554px;"><pre>{{recipe.directions}}</pre></div>
+					<br>
+					
+					<h4 ng-show="recipe.categories.length">Categories</h4>
+					<ul>
+						<li ng-repeat="c in recipe.categories">{{c}} <span ng-click="deleteCategory(c)" popover="Delete Category" popover-placement="right" popover-trigger="mouseenter" class="glyphicon glyphicon-remove"></span></li>
+					</ul>
+					
+				</td>			
+			</tr>
+		</table>
+            
 		</div>
 		
 
