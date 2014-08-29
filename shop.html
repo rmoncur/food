@@ -68,6 +68,21 @@
 			<h1>Moncur Shopping List</h1>
 		</div>
 		
+        <h2 ng-show="db.selectedIngredients.length">Shopping List</h2>
+		<table class="table table-condensed" ng-show="db.selectedIngredients.length" >
+			<tr ng-repeat="i in db.selectedIngredients | orderBy:'name'" ng-hide="i.checked">
+				<td width="3%"><input class="checkbox" type="checkbox" ng-model="i.checked" /></td>
+				<td width="94%">{{i.name}} {{i.note}} <span ng-show="i.amount || i.unit">({{i.amount}} {{i.unit}})</span></td>
+                <td width="3%"><span ng-click="removeIngredient(i)" class="glyphicon glyphicon-remove deleteRecipe"></span></td>
+			</tr>
+            <tr ng-repeat="i in db.selectedIngredients | orderBy:'name'" ng-show="i.checked">
+				<td width="3%"><input class="checkbox" type="checkbox" ng-model="i.checked" /></td>
+				<td width="94%">{{i.name}} {{i.note}} <span ng-show="i.amount || i.unit">({{i.amount}} {{i.unit}})</span></td>
+                <td width="3%"><span ng-click="removeIngredient(i)" class="glyphicon glyphicon-remove deleteRecipe"></span></td>
+			</tr>
+            
+		</table>
+        
 		<input type="text" class="form-control" placeholder="Search" style="margin:5px 0;" ng-model="searchFilter" />
 		<ul class="list-group">
 			<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:searchFilter" class="list-group-item recipeLi" ><input type="checkbox" ng-change="selectRecipe(r)" ng-model="r.selected" /> {{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
@@ -78,13 +93,7 @@
 			<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:!selected" class="list-group-item recipeLi" ><input type="checkbox" ng-change="selectRecipe(r)" ng-model="r.selected" /> {{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
 		</ul>
 		
-		<h2 ng-show="db.selectedIngredients.length">Selected Ingredients</h2>
-		<table class="table table-condensed" ng-show="db.selectedIngredients.length">
-			<tr ng-repeat="i in db.selectedIngredients | orderBy:'name'">
-				<td width="3%"><span ng-click="removeIngredient(i)" class="glyphicon glyphicon-remove deleteRecipe"></span></td>
-				<td width="97%"><b>{{i.amount}}</b> <u>{{i.unit}}</u> {{i.name}} {{i.note}}</td>
-			</tr>
-		</table>
+		
 		
 
     </div><!-- /.container -->

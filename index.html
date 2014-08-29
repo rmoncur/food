@@ -63,10 +63,11 @@
     </div>
 
     <div class="container">
-		<div style="float:left; margin-top:34px; cursor:pointer;" ng-click="hideRecipe()" ng-show="ui.menu.recipe"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Go Back</div>
-        <div style="float:right; margin-top:34px; cursor:pointer;" ng-click="loadRecipe(ui.menu.recipe); ui.menu.recipeedit = !ui.menu.recipeedit" ng-show="ui.menu.recipe && !ui.menu.recipeedit"><span class="glyphicon glyphicon glyphicon-edit"></span> Edit</div>
-        <div ng-show="ui.menu.recipeedit" style="float:right; margin-top:34px; cursor:pointer;" ng-click="ui.menu.recipeedit = !ui.menu.recipeedit" ><span class="glyphicon glyphicon glyphicon-edit"></span> Done</div>
-		<div class="starter-template">
+		<div style="float:left; margin-top:34px; cursor:pointer;" ng-click="hideRecipe(); ui.menu.recipeedit = false" ng-show="ui.menu.recipe" class="btn btn-default"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Go Back</div>
+        <div style="float:right; margin-top:34px; cursor:pointer;" ng-click="loadRecipe(ui.menu.recipe); ui.menu.recipeedit = !ui.menu.recipeedit" class="btn btn-default" ng-show="ui.menu.recipe && !ui.menu.recipeedit"><span class="glyphicon glyphicon glyphicon-pencil"></span> Edit</div>
+        <div ng-show="ui.menu.recipeedit" style="float:right; margin-top:34px; cursor:pointer;" ng-click="ui.menu.recipeedit = !ui.menu.recipeedit" class="btn btn-primary" ><span class="glyphicon glyphicon glyphicon-ok"></span> Done</div>		
+        
+        <div class="starter-template">
 			<h1>Moncur Recipe Book</h1>
 		</div>
 		

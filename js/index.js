@@ -109,6 +109,7 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 			for(var i in r.ingredients){
 				var newIng = $.extend(true, {}, r.ingredients[i]);
 				newIng.recipe_id = r.id;
+				newIng.checked = false;
 				$scope.db.selectedIngredients.push(newIng);
 			}
 		} else {
@@ -169,26 +170,36 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 			line = line.replace(/ *\([^)]*\) */g, '' );			
 			
 			//Converting measurements
+			line = line.replace(/1 1\/8/g, '1.125');
 			line = line.replace(/1 1\/4/g, '1.25');
 			line = line.replace(/1 1\/3/g, '1.333');
 			line = line.replace(/1 1\/2/g, '1.5');
 			line = line.replace(/1 3\/4/g, '1.75');
+			line = line.replace(/2 1\/8/g, '2.125');
 			line = line.replace(/2 1\/4/g, '2.25');
 			line = line.replace(/2 1\/3/g, '2.333');
 			line = line.replace(/2 1\/2/g, '2.5');
 			line = line.replace(/2 3\/4/g, '2.75');
+			line = line.replace(/3 1\/8/g, '3.125');
 			line = line.replace(/3 1\/4/g, '3.25');
 			line = line.replace(/3 1\/3/g, '3.333');
 			line = line.replace(/3 1\/2/g, '3.5');
 			line = line.replace(/3 3\/4/g, '3.75');
+			line = line.replace(/4 1\/8/g, '4.125');
 			line = line.replace(/4 1\/4/g, '4.25');
 			line = line.replace(/4 1\/3/g, '4.333');
 			line = line.replace(/4 1\/2/g, '4.5');
 			line = line.replace(/4 3\/4/g, '4.75');
+			line = line.replace(/5 1\/8/g, '5.125');
 			line = line.replace(/5 1\/4/g, '5.25');
 			line = line.replace(/5 1\/3/g, '5.333');
 			line = line.replace(/5 1\/2/g, '5.5');
 			line = line.replace(/5 3\/4/g, '5.75');
+			line = line.replace(/6 1\/8/g, '6.125');
+			line = line.replace(/6 1\/4/g, '6.25');
+			line = line.replace(/6 1\/3/g, '6.333');
+			line = line.replace(/6 1\/2/g, '6.5');
+			line = line.replace(/6 3\/4/g, '6.75');
 
 			line = line.replace(/1\/2/g, '0.5');
 			line = line.replace(/1\/3/g, '0.333');
