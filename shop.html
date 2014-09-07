@@ -9,7 +9,7 @@
 	<link rel="icon" type="image/ico" href="/img/star.ico">
     <!-- <link rel="icon" href="../../favicon.ico"> -->
 
-    <title>Menu</title>
+    <title>Shop</title>
 
 	<style>
 
@@ -68,6 +68,14 @@
 			<h1>Moncur Shopping List</h1>
 		</div>
 		
+        <div class="input-group">
+          <input ng-model="customIngredient" class="form-control" type="text" placeholder="add an item to your shopping list..." ui-keypress="{13:'addCustomIngredient($event)'}" />
+            
+          <span class="input-group-btn">
+            <button class="btn btn-info" ><span ng-click="addCustomIngredient()" class="glyphicon glyphicon-ok"></span></button>
+          </span>
+        </div>
+        
         <h2 ng-show="db.selectedIngredients.length">Shopping List</h2>
 		<table class="table table-condensed" ng-show="db.selectedIngredients.length" >
 			<tr ng-repeat="i in db.selectedIngredients | orderBy:'name'" ng-hide="i.checked">
@@ -83,15 +91,18 @@
             
 		</table>
         
+        <h2>Selected Recipes</h2>
+		<ul class="list-group">
+			<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:!selected" class="list-group-item recipeLi" ><input type="checkbox" ng-change="selectRecipe(r)" ng-model="r.selected" /> {{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
+		</ul>
+        
+        <h2>Find a Recipe</h2>
 		<input type="text" class="form-control" placeholder="Search" style="margin:5px 0;" ng-model="searchFilter" />
 		<ul class="list-group">
 			<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:searchFilter" class="list-group-item recipeLi" ><input type="checkbox" ng-change="selectRecipe(r)" ng-model="r.selected" /> {{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
 		</ul>
 		
-		<h2>Selected Recipes</h2>
-		<ul class="list-group">
-			<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:!selected" class="list-group-item recipeLi" ><input type="checkbox" ng-change="selectRecipe(r)" ng-model="r.selected" /> {{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
-		</ul>
+		
 		
 		
 		

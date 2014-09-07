@@ -55,6 +55,7 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 	fireService.$bind($scope, "db");	//three-way-binding the db object
 	$scope.categories = ["Main Dish","Breakfast","Lunch","Dinner","Dessert","Side Dish","Crockpot","Italian","Pasta","Asian","Chinese","Cookies","Thai"];	//populating the autofill categories
 	
+	//Saving a recipe
 	$scope.saveRecipe = function(){
 		//$scope.db.$add({"recipes":[]});
 		
@@ -145,6 +146,7 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 		$scope.nextCategory = "";	
 	}
 	
+	//Deleting a category from the current category
 	$scope.deleteCategory = function(c){
 		for( var i in $scope.recipe.categories ){
 			if( c == $scope.recipe.categories[i] ){
@@ -202,10 +204,15 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 			line = line.replace(/6 3\/4/g, '6.75');
 
 			line = line.replace(/1\/2/g, '0.5');
+			line = line.replace(/½/g, '0.5');
 			line = line.replace(/1\/3/g, '0.333');
+			line = line.replace(/⅓/g, '0.333');
 			line = line.replace(/1\/4/g, '0.25');
+			line = line.replace(/¼/g, '0.25');
 			line = line.replace(/2\/3/g, '0.666');
+			line = line.replace(/⅔/g, '0.666');
 			line = line.replace(/3\/4/g, '0.75');
+			line = line.replace(/¾/g, '0.75');
 			line = line.replace(/3\/2/g, '1.5');
 			
 			//Removing double spaces
@@ -237,6 +244,7 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 		
 	}
 	
+	//Parsing the unit from an ingredient line
 	$scope.parseUnit = function(unit){
 		switch(unit){
 			case "cup":
@@ -324,21 +332,31 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 		}
 	}
 	
+	//Parsing the name from an ingredient line
 	$scope.parseName = function(name){
 		return name;
 	}
 	
+	//Displaying a recipe on the menu page
 	$scope.displayRecipe = function(r){
 		$scope.ui.menu.recipe = r;
 	}
 	
+	//Hiding the recipe on the menu page
 	$scope.hideRecipe = function(){
 		$scope.ui.menu.recipe = null;	
+	}
+	
+	//Adding a custom ingredient to the shopping list
+	$scope.addCustomIngredient = function(){
+		$scope.db.selectedIngredients.push({name:$scope.customIngredient});
+		$scope.customIngredient = "";
 	}
 	
 	
 }]);
 
+//Generating a guid for the recipe
 function generateUUID(){
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -347,4 +365,4 @@ function generateUUID(){
         return (c=='x' ? r : (r&0x7|0x8)).toString(16);
     });
     return uuid;
-};
+ };
