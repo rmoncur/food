@@ -74,7 +74,7 @@
 		<div ng-hide="ui.menu.recipe">
 			<input type="text" class="form-control" placeholder="Search" style="margin:5px 0;" ng-model="searchFilter" />
 			<ul class="list-group">
-				<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:searchFilter" class="list-group-item recipeLi" ng-click="displayRecipe(r)">{{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span></li>
+				<li ng-repeat="r in db.recipes | orderBy:ui.menu.sort | filter:searchFilter" class="list-group-item recipeLi" ng-click="displayRecipe(r)">{{r.title}} <span ng-repeat="c in r.categories" class="badge">{{c}}</span><br><span style="font-size:10px;">{{r.from}}</span></li>
 			</ul>
 		</div>
 		<div ng-show="ui.menu.recipe">
@@ -82,6 +82,7 @@
             <!-- Displaying the Recipe -->
         	<div ng-hide="ui.menu.recipeedit">		
                 <h2>{{ui.menu.recipe.title}} </h2>
+				<div style="font-size:12px; font-style:italic;"><span ng-show="ui.menu.recipe.from">by {{ui.menu.recipe.from}}</span><span ng-show="ui.menu.recipe.url" >from <a ng-href="ui.menu.recipe.url">{{ui.menu.recipe.url}}</a></span><span ng-show="ui.menu.recipe.servings">, Serves {{ui.menu.recipe.servings}}</span></div>
                 <h3>Ingredients</h3>
                 <ul class="well" style="list-style:none; font-family: Menlo,Monaco,Consolas,'Courier New',monospace;">
                     <li style="list-style:none;" ng-repeat="i in ui.menu.recipe.ingredients">{{i.amount}} <span style="text-decoration:underline;">{{i.unit}}</span> {{i.name}} {{i.note}}</li>
@@ -102,9 +103,15 @@
 					<textarea ng-change="parseIngredients()" ng-model="recipe.rawtext" class="form-control" style="width:100%; height:150px;" tabindex="2"></textarea>
 					<h2>Directions</h2>
 					<textarea ng-model="recipe.directions" class="form-control" style="width:100%; height:150px;" tabindex="3"></textarea>
+					<h2>Servings</h2>
+					<input type="number" ng-model="recipe.servings" placeholder="how many meals does this make?" class="form-control" style="width:100%;" tabindex="4" />
+					
+					<h2>URL</h2>
+					<input type="text" ng-model="recipe.url" placeholder="url you got this recipe from..." class="form-control" style="width:100%;" tabindex="5" />
+					
 					<h2>Categories</h2>
 					<div class="input-group">
-					  <input ng-model="nextCategory" class="form-control" type="text" placeholder="categories (e.g. italian, dessert, pasta)" typeahead="state for state in categories | filter:$viewValue | limitTo:8" ui-keypress="{13:'addCategory($event)'}" />
+					  <input ng-model="nextCategory" class="form-control" type="text" placeholder="categories (e.g. italian, dessert, pasta)" typeahead="state for state in categories | filter:$viewValue | limitTo:8" ui-keypress="{13:'addCategory($event)'}" tabindex="5" />
 						
 					  <span class="input-group-btn">
 						<button class="btn btn-info" ><span ng-click="addCategory()" class="glyphicon glyphicon-ok"></span></button>

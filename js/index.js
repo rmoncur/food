@@ -78,6 +78,8 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 	//Deleting a recipe
 	$scope.deleteRecipe = function(r){
 		
+		console.log("db",$scope.db);
+		
 		if( !confirm("Really delete this recipe?") ) return;
 		
 		for( var i in $scope.db.recipes ){
