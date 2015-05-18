@@ -39,7 +39,7 @@
 	
 </head>
 
-  <body ng-controller="rootCtrl" ng-init="parseIngredients()" ng-cloak>
+  <body ng-controller="rootCtrl" ng-init="initialize()" ng-cloak>
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -71,6 +71,7 @@
 			<h1>Moncur Recipe Book</h1>
 		</div>
 		
+		<!-- The list of recipes -->
 		<div ng-hide="ui.menu.recipe">
 			<input type="text" class="form-control" placeholder="Search" style="margin:5px 0;" ng-model="searchFilter" />
 			<ul class="list-group">
@@ -82,7 +83,7 @@
             <!-- Displaying the Recipe -->
         	<div ng-hide="ui.menu.recipeedit">		
                 <h2>{{ui.menu.recipe.title}} </h2>
-				<div style="font-size:12px; font-style:italic;"><span ng-show="ui.menu.recipe.from">by {{ui.menu.recipe.from}}</span><span ng-show="ui.menu.recipe.url" >from <a ng-href="ui.menu.recipe.url">{{ui.menu.recipe.url}}</a></span><span ng-show="ui.menu.recipe.servings">, Serves {{ui.menu.recipe.servings}}</span></div>
+				<div style="font-size:12px; font-style:italic;"><span ng-show="ui.menu.recipe.from">by {{ui.menu.recipe.from}}</span><span ng-show="ui.menu.recipe.url" > from <a ng-href="ui.menu.recipe.url">{{ui.menu.recipe.url}}</a></span><span ng-show="ui.menu.recipe.servings">, Serves {{ui.menu.recipe.servings}}</span></div>
                 <h3>Ingredients</h3>
                 <ul class="well" style="list-style:none; font-family: Menlo,Monaco,Consolas,'Courier New',monospace;">
                     <li style="list-style:none;" ng-repeat="i in ui.menu.recipe.ingredients">{{i.amount}} <span style="text-decoration:underline;">{{i.unit}}</span> {{i.name}} {{i.note}}</li>
@@ -153,7 +154,9 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
     <script src="http://cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
 	<script src="http://cdn.firebase.com/js/simple-login/1.6.1/firebase-simple-login.js"></script>
-    <script src="http://cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js"></script>
+    
+    <!-- <script src="http://cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js"></script> -->
+    <script src="http://cdn.firebase.com/libs/angularfire/1.1.1/angularfire.min.js"></script>
 	
 	<!-- <script src="angular/angular.min.js"></script> -->
     <script src="bootstrap/js/bootstrap.min.js"></script>

@@ -1,8 +1,8 @@
 //Initializing the app & adding the firebase code
 var app = angular.module('myApp', ["firebase","ui.bootstrap","ui.utils"])
-.factory("fireService", ["$firebase", function($firebase) {
+.factory("fireService", ["$firebaseObject", function($firebaseObject) {
 	var ref = new Firebase("https://brilliant-fire-721.firebaseio.com");
-	return $firebase(ref);
+	return $firebaseObject(ref);
 }]);
 
 angular.module('myApp').filter('selectedTags', function() {
@@ -21,8 +21,11 @@ angular.module('myApp').filter('selectedTags', function() {
 });
 
 // Controller for the instance of the Modal Dialog
-app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $http, fireService) {
+app.controller("rootCtrl",["$scope","$http","$location","fireService",function ($scope, $http, $location, fireService) {
 	
+
+
+
 	$scope.ui = {
 		input:{
 			sort:"title",
@@ -52,9 +55,29 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 	
 	
 	$scope.db = {};
-	fireService.$bind($scope, "db");	//three-way-binding the db object
 	$scope.categories = ["Main Dish","Breakfast","Lunch","Dinner","Dessert","Side Dish","Crockpot","Italian","Pasta","Asian","Chinese","Cookies","Thai"];	//populating the autofill categories
+
+
+	//three-way-binding the object, then loading a recipe if it is set in the hash
+	fireService.$bindTo($scope, "db");	//three-way-binding the db object
+	fireService.$loaded().then(function(){
+		var hash = $location.hash();
+		console.log("Startup hash",hash);
+		$scope.displayRecipe($scope.getRecipeById(hash))
+		console.log($scope.db);
+		$scope.parseIngredients();
+	});
 	
+	//Getting everything started
+	$scope.initialize = function(){
+
+		//var hash = $location.hash();
+		//console.log("Startup hash",hash);
+		//console.log($scope.db);
+
+		//$scope.parseIngredients();
+	}
+
 	//Saving a recipe
 	$scope.saveRecipe = function(){
 		//$scope.db.$add({"recipes":[]});
@@ -99,9 +122,8 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 	
 	//Load a recipe into the editor
 	$scope.loadRecipe = function(r){
-		$scope.recipe = r;
-		//setTimeout( function(){ $scope.ingtext = $(".well").first().text().trim(); $scope.$apply(); console.log($(".well").first().text().trim()) },500);
-		
+		$scope.recipe = r;		
+		//setTimeout( function(){ $scope.ingtext = $(".well").first().text().trim(); $scope.$apply(); console.log($(".well").first().text().trim()) },500);		
 	}
 	
 	//Selecting a recipe, and adding its ingredients to the selectedIngredients list
@@ -243,7 +265,6 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 			ingredient.name = ingredient.name.trim().replace(/\s{2,}/g, ' ')
 			$scope.recipe.ingredients.push(ingredient);
 		}
-		
 	}
 	
 	//Parsing the unit from an ingredient line
@@ -342,11 +363,20 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 	//Displaying a recipe on the menu page
 	$scope.displayRecipe = function(r){
 		$scope.ui.menu.recipe = r;
+		if(r.id == "")
+			r.id = generateUUID();
+
+		console.log("Recipe",r);
+		$location.hash(r.id);
+
+		console.log($scope.db);
+
 	}
 	
 	//Hiding the recipe on the menu page
 	$scope.hideRecipe = function(){
-		$scope.ui.menu.recipe = null;	
+		$scope.ui.menu.recipe = null;
+		$location.hash("");
 	}
 	
 	//Adding a custom ingredient to the shopping list
@@ -355,13 +385,21 @@ app.controller("rootCtrl",["$scope","$http","fireService",function ($scope, $htt
 		$scope.customIngredient = "";
 	}
 	
+	//Returning a recipe by its id
+	$scope.getRecipeById = function(id){
+
+		for(var i in $scope.db.recipes){
+			if( $scope.db.recipes[i].id == id )
+				return $scope.db.recipes[i];
+		}
+	}
 	
 }]);
 
 //Generating a guid for the recipe
 function generateUUID(){
     var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var uuid = 'xxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random()*16)%16 | 0;
         d = Math.floor(d/16);
         return (c=='x' ? r : (r&0x7|0x8)).toString(16);
