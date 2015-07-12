@@ -362,6 +362,11 @@ app.controller("rootCtrl",["$scope","$http","$location","fireService",function (
 	
 	//Displaying a recipe on the menu page
 	$scope.displayRecipe = function(r){
+		
+		 if(typeof r === 'undefined'){
+		   return;
+		 };
+		
 		$scope.ui.menu.recipe = r;
 		if(r.id == "")
 			r.id = generateUUID();
